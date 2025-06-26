@@ -1,0 +1,12 @@
+{
+    "manifest_version": 3,
+    "name": "Intelligent Tab Grouping",
+    "description": "Automatically groups tabs based on their content and usage patterns.",
+    "version": "1.0",
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "permissions": [
+      "tabGroups", "tabs"
+    ]
+  }
