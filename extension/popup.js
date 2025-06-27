@@ -5,7 +5,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         currentWindow: true
     });
 
-    console.log("Tabs in current window:", tabs);
+    const tabsJson = tabs.reduce((result, tab) => {
+        if (tab.url) {
+            result[tab.id] = {
+                title: tab.title,
+                url: tab.url
+            };
+        }
+        return result;
+    }, {});
+
+    console.log(JSON.stringify(tabsJson, null, 2));
 
     // Group tabs by hostname
     const hostnameGroups = new Map();

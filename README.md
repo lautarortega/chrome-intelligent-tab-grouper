@@ -16,7 +16,7 @@ A Chrome extension that intelligently groups and ungroups tabs based on their ho
    ```
 2. Open Chrome and navigate to `chrome://extensions/`.
 3. Enable **Developer mode** (toggle in the top-right corner).
-4. Click **Load unpacked** and select the folder where this repository is located.
+4. Click **Load unpacked** and select the `extension` folder within this repository.
 
 ## Usage
 
@@ -26,9 +26,11 @@ A Chrome extension that intelligently groups and ungroups tabs based on their ho
 
 ## File Structure
 
-- `manifest.json`: Defines the extension's metadata and permissions.
-- `popup.html`: The HTML file for the extension's popup interface.
-- `popup.js`: Contains the logic for grouping and ungrouping tabs.
+- `extension/`: Directory containing all extension-related files
+  - `manifest.json`: Defines the extension's metadata and permissions.
+  - `popup.html`: The HTML file for the extension's popup interface.
+  - `popup.js`: Contains the logic for grouping and ungrouping tabs.
+- `README.md`: Documentation for the project.
 
 ## Permissions
 
