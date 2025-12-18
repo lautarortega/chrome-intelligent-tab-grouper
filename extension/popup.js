@@ -81,4 +81,48 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         console.log("All tabs have been ungrouped.");
     });
+
+    const smartGroupButton = document.querySelector("#smart-group-tabs-btn");
+    smartGroupButton.addEventListener("click", async () => {
+        console.log("Smart grouping started...");
+        const allTabs = await chrome.tabs.query({ currentWindow: true });
+
+        const payloadTabs = allTabs.map(tab => ({
+            id: String(tab.id),
+            url: tab.url,
+            title: tab.title || "",
+            body: "" // We don't have body content access yet easily without content script
+        }));
+
+        try {
+            const response = await fetch("http://localhost:8000/api/v1/group", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payloadTabs)
+            });
+
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log("Grouping Data:", data);
+
+            // Apply groups
+            for (const group of data.groups) {
+                if (group.tabs.length > 0) {
+                    const tabIds = group.tabs.map(t => parseInt(t.id));
+                    const chromeGroupId = await chrome.tabs.group({ tabIds: tabIds });
+                    await chrome.tabGroups.update(chromeGroupId, { title: group.title });
+                    console.log(`Grouped "${group.title}" with tabs: ${tabIds}`);
+                }
+            }
+
+        } catch (error) {
+            console.error("Failed to group tabs smartly:", error);
+            alert("Failed to group tabs. Is the backend running?");
+        }
+    });
 });
